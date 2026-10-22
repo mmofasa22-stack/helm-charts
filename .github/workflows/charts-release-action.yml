@@ -16,6 +16,8 @@ on:
       version:
         description: 'CSM release version. E.g. 1.14.0'
         required: true
+  pull_request:
+    branches: ["**"]
 
 jobs:
   # This job will perform a helm release of all the csm charts that have been updated
@@ -35,7 +37,7 @@ jobs:
 
       - name: Set release branch name for install wizard release action
         run: |
-          echo "release-v${{ inputs.version }}" >> branch_name.txt
+          echo "release-v${{ github.event.pull_request.title }}" >> branch_name.txt
 
       - name: Upload release branch name artifact
         uses: actions/upload-artifact@v7
